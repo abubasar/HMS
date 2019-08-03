@@ -1,0 +1,36 @@
+﻿@model HMS.Areas.Dashboard.ViewModels.AccomodationTypesViewModel
+@if (Model != null && Model.AccomodationTypes!=null && Model.AccomodationTypes.Count>0)
+{
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Accomodation Type</th>
+            <th scope="col">Description</th>
+            <th scope="col">Actions</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var accomodationType in Model.AccomodationTypes)
+        { 
+
+            <tr>
+                <td>@accomodationType.Name</td>
+                <td>@accomodationType.Description</td>
+                <td>
+                    <button class="btn btn-primary" type="button">Edit</button>
+                    <button class="btn btn-danger" type="button">Delete</button>
+                </td>
+               
+            </tr>
+        }
+         
+    </tbody>
+</table>
+}
+else
+{
+<div class="alert alert-warning" role="alert">
+    Sorry!! no Records Exists.
+</div>
+}
