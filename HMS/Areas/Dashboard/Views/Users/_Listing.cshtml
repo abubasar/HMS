@@ -1,0 +1,86 @@
+﻿@model HMS.Areas.Dashboard.ViewModels.UsersListingModel
+@if (Model != null && Model.Users != null && Model.Users.Count() > 0)
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">FullName</th>
+                <th scope="col">Email</th>
+                <th scope="col">User Name</th>
+                <th scope="col">Roles</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead> 
+        <tbody>
+            @foreach (var user in Model.Users)
+            {
+
+            <tr>
+                <td>@user.FullName</td>
+                <td>@user.Email</td>
+                <td>@user.UserName</td>
+                <td>
+                    
+                    @if (user.Roles != null)
+                      {
+                         @user.Roles.Count
+
+                      }
+                </td>
+                <td>
+                    <button data-href="@Url.Action("Action","Users" ,new {id=user.Id})" class=" data-btn btn btn-primary" type="button" data-toggle="modal" data-target="#actionModal"><i class="fas fa-pen mr-1"></i>Edit</button>
+                    <button data-href="@Url.Action("Delete","Users" ,new {id=user.Id})" class="data-btn btn-danger" type="button" data-toggle="modal" data-target="#actionModal"><i class="fas fa-trash mr-1"></i>Delete</button>
+                    <button data-href="@Url.Action("UserRoles","Users" ,new {id=user.Id})" class="data-btn btn-danger" type="button" data-toggle="modal" data-target="#actionModal"><i class="fas fa-user-shield mr-1"></i>Roles</button>
+
+                </td>
+
+            </tr>
+            }
+
+        </tbody>
+    </table>
+    //pagination start..............
+    /*https://jasonwatmore.com/post/2015/10/30/aspnet-mvc-pagination-example-with-logic-like-google*/
+    if (Model.Pager.EndPage > 1)
+    {
+    <nav>
+        <ul class="pagination">
+            @if (Model.Pager.CurrentPage > 1)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="@Url.Action("Index","Users")">First</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="@Url.Action("Index","Users",new { page=Model.Pager.CurrentPage - 1,searchTerm=Model.SearchTerm,roleId=Model.RoleId})">Previous</a>
+                </li>
+            }
+
+            @for (var page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
+            {
+                <li class=" page-item @(page == Model.Pager.CurrentPage ? "active" : "")">
+                    <a class="page-link" href="@Url.Action("Index","Users",new { page=page,searchTerm=Model.SearchTerm,roleId=Model.RoleId})">@page</a>
+                </li>
+            }
+
+            @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="@Url.Action("Index","Users",new { page=Model.Pager.CurrentPage + 1,searchTerm=Model.SearchTerm,roleId=Model.RoleId})">Next</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="@Url.Action("Index","Users",new { page=Model.Pager.TotalPages,searchTerm=Model.SearchTerm,roleId=Model.RoleId})">Last</a>
+                </li>
+            }
+        </ul>
+    </nav>
+    }
+
+    //pagination end..........................
+
+}
+else
+{
+    <div class="alert alert-warning" role="alert">
+        Sorry!! no Records Exists.
+    </div>
+}

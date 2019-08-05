@@ -17,42 +17,97 @@ namespace HMS.Areas.Dashboard.Controllers
             this.accomodationTypesService = new AccomodationTypesService();
         }
         // GET: Dashboard/AccomodationTypes
-        public ActionResult Index()
+        public ActionResult Index(string searchTerm)
         {
-            return View();
+            AccomodationTypeListingModel viewModel = new AccomodationTypeListingModel();
+            viewModel.SearchTerm = searchTerm;
+            viewModel.AccomodationTypes = accomodationTypesService.SearchAccomodationTypes(searchTerm).ToList();
+           
+            return View(viewModel);
         }
-        public ActionResult Listing()
-        {
-            AccomodationTypesViewModel viewModel = new AccomodationTypesViewModel();
-            viewModel.AccomodationTypes = accomodationTypesService.GetAllAccomodationTypes().ToList();
-            return PartialView("_Listing",viewModel);
-        }
+       
         [HttpGet]
-        public ActionResult Action()
+        public ActionResult Action(string id)
         {
             AccomodationTypeActionModel model = new AccomodationTypeActionModel();
-            return PartialView("_Action",model);
+            if (id != null)//editing
+            {
+                var accomodationType = accomodationTypesService.GetAccomodationTypeBYId(id);
+                model.Id = accomodationType.Id;
+                model.Name = accomodationType.Name;
+                model.Description = accomodationType.Description;
+            }
+
+            return PartialView("_Action", model);
         }
         [HttpPost]
         public JsonResult Action(AccomodationTypeActionModel viewModel)
         {
+            var result = false;
             JsonResult json = new JsonResult();
-            AccomodationType model = new AccomodationType();
-            model.Id = Guid.NewGuid().ToString();
-            model.Name = viewModel.Name;
-            model.Description = viewModel.Description;
+            if (viewModel.Id != null)//editing
+            {
+                var accomodationType = accomodationTypesService.GetAccomodationTypeBYId(viewModel.Id);
+                accomodationType.Id = viewModel.Id;
+                accomodationType.Name = viewModel.Name;
+                accomodationType.Description = viewModel.Description;
+                result = accomodationTypesService.UpdateAccomodationType(accomodationType);
+            }
+            else//adding
+            {
+                AccomodationType model = new AccomodationType();
+                model.Id = Guid.NewGuid().ToString();
+                model.Name = viewModel.Name;
+                model.Description = viewModel.Description;
+                result = accomodationTypesService.SaveAccomodationType(model);
+            }
 
-            var result = accomodationTypesService.SaveAccomodationType(model);
-            if(result)
+
+            if (result)
             {
                 json.Data = new { Success = true };
             }
             else
             {
-                json.Data = new { Success = false,Message="Unable To Add Accomodation Type" };
+                json.Data = new { Success = false, Message = "Unable To Perform Action on Accomodation Type" };
+            }
+            return json;
+        }
+
+
+        [HttpGet]
+        public ActionResult Delete(string id)
+        {
+            AccomodationTypeActionModel model = new AccomodationTypeActionModel();
+
+            var accomodationType = accomodationTypesService.GetAccomodationTypeBYId(id);
+            model.Id = accomodationType.Id;
+
+
+            return PartialView("_Delete", model);
+        }
+
+
+        [HttpPost]
+        public JsonResult Delete(AccomodationTypeActionModel viewModel)
+        { 
+            var result = false;
+            JsonResult json = new JsonResult();
+
+            var accomodationType = accomodationTypesService.GetAccomodationTypeBYId(viewModel.Id);
+            result = accomodationTypesService.DeleteAccomodationType(accomodationType);
+
+            if (result)
+            { 
+                json.Data = new { Success = true };
+            }
+            else 
+            {
+                json.Data = new { Success = false, Message = "Unable To Perform Action on Accomodation Type" };
             }
             return json;
         }
 
     }
+
 }

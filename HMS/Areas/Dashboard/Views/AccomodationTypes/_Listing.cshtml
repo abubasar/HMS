@@ -1,4 +1,4 @@
-﻿@model HMS.Areas.Dashboard.ViewModels.AccomodationTypesViewModel
+﻿@model HMS.Areas.Dashboard.ViewModels.AccomodationTypeListingModel
 @if (Model != null && Model.AccomodationTypes!=null && Model.AccomodationTypes.Count>0)
 {
 <table class="table table-striped">
@@ -18,8 +18,8 @@
                 <td>@accomodationType.Name</td>
                 <td>@accomodationType.Description</td>
                 <td>
-                    <button class="btn btn-primary" type="button">Edit</button>
-                    <button class="btn btn-danger" type="button">Delete</button>
+                    <button data-href="@Url.Action("Action","AccomodationTypes" ,new {id=accomodationType.Id})" class=" data-btn btn btn-primary" type="button"  data-toggle="modal" data-target="#actionModal"><i class="fas fa-pen mr-1"></i>Edit</button>
+                    <button data-href="@Url.Action("Delete","AccomodationTypes" ,new {id=accomodationType.Id})" class="data-btn btn-danger" type="button" data-toggle="modal" data-target="#actionModal"><i class="fas fa-trash mr-1"></i>Delete</button>
                 </td>
                
             </tr>

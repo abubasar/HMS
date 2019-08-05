@@ -1,10 +1,10 @@
-﻿@model HMS.Areas.Dashboard.ViewModels.AccomodationTypeListingModel
+﻿@model HMS.Areas.Dashboard.ViewModels.RolesListingModel
 @{
     ViewBag.Title = "Index";
 }
  <div class="row">
      <div class="col col-lg-12">
-         <h2>Accomodation Types</h2>
+         <h2>Roles</h2>
      </div>
  </div> 
 
@@ -12,14 +12,15 @@
      <div class="col col-lg-12">
          <form>
              <div class="input-group">
-                 <input type="text" name="searchTerm" class="form-control" placeholder="Search" value="@Model.SearchTerm" required>
+                 <input type="text" name="searchTerm" class="form-control" placeholder="Search" value="@Model.SearchTerm">
+                 
                  <div class="input-group-append">
                      <button class="btn btn-outline-primary" type="submit"><i class="fas fa-search mr-1"></i>Search</button>
-                     <a href="@Url.Action("Index","AccomodationTypes")" class="btn btn-outline-secondary" type="button"><i class="fas fa-redo-alt mr-1">Reset</i></a>
-                     <button data-href="@Url.Action("Action","AccomodationTypes")" id="createBtn" class="data-btn btn btn-outline-success" type="button" data-toggle="modal" data-target="#actionModal"><i class="fas fa-plus mr-1"></i>Create</button>
+                     <a href="@Url.Action("Index","Roles")" class="btn btn-outline-secondary" type="button"><i class="fas fa-redo-alt mr-1">Reset</i></a>
+                     <button data-href="@Url.Action("Action","Roles")" id="createBtn" class="data-btn btn btn-outline-success" type="button" data-toggle="modal" data-target="#actionModal"><i class="fas fa-plus mr-1"></i>Create</button>
                  </div>
              </div>
-              
+         </form>
      </div> 
  </div>   
    

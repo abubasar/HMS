@@ -1,0 +1,79 @@
+﻿@model HMS.Areas.Dashboard.ViewModels.AccomodationPackageActionModel
+  @if(Model!=null){
+   <div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+            @if (Model.Id!=null)
+            {
+                <span>Edit Accomdation Package</span>
+            }
+            else
+            {
+                <span>Create Accomdation Package</span>
+            }
+
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form id="actionForm">
+            <input type="hidden" name="Id" value="@Model.Id" />
+            <div class="form-group">
+                <label>Accomodation Type</label>
+                <select name="AccomodationTypeId" class="form-control">
+                    @if (Model.AccomodationTypes != null)
+                    {
+                        foreach (var accomodationType in Model.AccomodationTypes)
+                        {
+                            <option value="@accomodationType.Id" @(accomodationType.Id==Model.AccomodationTypeId ? "selected":string.Empty)>@accomodationType.Name</option>
+                        }
+                    }
+
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" name="Name" class="form-control" value="@Model.Name" placeholder="Enter Accomodation Package Name" />
+            </div>
+            <div class="form-group">
+                <label>Number of Room</label>
+                <input type="text" name="NoOfRoom" class="form-control" value="@Model.NoOfRoom" placeholder="Enter Number of Room" />
+            </div>
+            <div class="form-group">
+                <label>Fee Per Night</label>
+                <input type="text" name="FeePerNight" class="form-control" value="@Model.FeePerNight" placeholder="Enter Fee Per Night" />
+            </div>
+
+        </form>
+        <div class="errorDiv">
+
+        </div>
+
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times mr-1"></i>Close</button>
+        <button id="actionBtn" type="button" class="btn btn-primary"><i class="fas fa-save mr-1"></i>Save/Update</button>
+    </div>
+</div> 
+}
+
+
+<script>
+    $("#actionBtn").click(function () {
+        $.ajax({
+            url: '@Url.Action("Action","AccomodationPackages")',
+            type: "post",
+            data: $("#actionForm").serialize()
+        }).done(function (res) {
+          //  debugger;
+            if (res.Success) {
+                location.reload();
+            } else { 
+                $("#errorDiv").html(res.Message);
+            }
+        });
+    });
+</script>

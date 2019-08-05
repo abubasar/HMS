@@ -75,6 +75,14 @@
     <Compile Include="Migrations\201908022332277_propertyDescriptionAdded.Designer.cs">
       <DependentUpon>201908022332277_propertyDescriptionAdded.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201908042341075_descriptionAddedInAccomodation.cs" />
+    <Compile Include="Migrations\201908042341075_descriptionAddedInAccomodation.Designer.cs">
+      <DependentUpon>201908042341075_descriptionAddedInAccomodation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908050816189_userExtened.cs" />
+    <Compile Include="Migrations\201908050816189_userExtened.Designer.cs">
+      <DependentUpon>201908050816189_userExtened.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -103,6 +111,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201908022332277_propertyDescriptionAdded.resx">
       <DependentUpon>201908022332277_propertyDescriptionAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908042341075_descriptionAddedInAccomodation.resx">
+      <DependentUpon>201908042341075_descriptionAddedInAccomodation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908050816189_userExtened.resx">
+      <DependentUpon>201908050816189_userExtened.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

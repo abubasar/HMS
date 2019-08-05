@@ -1,15 +1,15 @@
-﻿@model HMS.Areas.Dashboard.ViewModels.AccomodationTypeActionModel
+﻿@model HMS.Areas.Dashboard.ViewModels.AccomodationsActionModel
   @if(Model!=null){
    <div class="modal-content">
     <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">
             @if (Model.Id!=null)
             {
-                <span>Edit Accomdation Type</span>
+                <span>Edit Accomdation</span>
             }
             else
             {
-                <span>Create Accomdation Type</span>
+                <span>Create Accomdation</span>
             }
 
         </h5>
@@ -19,17 +19,29 @@
     </div>
     <div class="modal-body">
         <form id="actionForm">
-            <input type="hidden" name="Id" value="@Model.Id"/>
+            <input type="hidden" name="Id" value="@Model.Id" />
+            <div class="form-group">
+                <label>Accomodation Type</label>
+                <select name="AccomodationPackageId" class="form-control">
+                    @if (Model.AccomodationPackages != null)
+                    {
+                        foreach (var accomodationPackage in Model.AccomodationPackages)
+                        {
+                            <option value="@accomodationPackage.Id" @(accomodationPackage.Id==Model.AccomodationPackageId ? "selected":string.Empty)>@accomodationPackage.Name</option>
+                        }
+                    }
+
+                </select>
+            </div>
             <div class="form-group">
                 <label>Name</label>
-                <input type="text" name="Name" class="form-control" value="@Model.Name" placeholder="Enter Accomodation Type" />
+                <input type="text" name="Name" class="form-control" value="@Model.Name" placeholder="Enter Accomodation Package Name" />
             </div>
             <div class="form-group">
                 <label>Description</label>
-                <textarea name="Description" class="form-control" placeholder="Enter Accomodation Description"> @Model.Description</textarea>
+                <input type="text" name="Description" class="form-control" value="@Model.Description" placeholder="Enter Description" />
             </div>
            
-         
         </form>
         <div class="errorDiv">
 
@@ -48,7 +60,7 @@
 <script>
     $("#actionBtn").click(function () {
         $.ajax({
-            url: '@Url.Action("Action","AccomodationTypes")',
+            url: '@Url.Action("Action","Accomodations")',
             type: "post",
             data: $("#actionForm").serialize()
         }).done(function (res) {

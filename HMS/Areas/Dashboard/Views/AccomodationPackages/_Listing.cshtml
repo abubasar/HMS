@@ -1,0 +1,83 @@
+﻿@model HMS.Areas.Dashboard.ViewModels.AccomodationPackageListingModel
+@if (Model != null && Model.AccomodationPackages != null && Model.AccomodationPackages.Count > 0)
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Accomodation Type</th>
+                <th scope="col">Accomodation Package</th>
+                <th scope="col">No Of Room</th>
+                <th scope="col">Fee Per Night</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var accomodationPackage in Model.AccomodationPackages)
+            {
+
+                <tr>
+                    <td>
+                        @if (accomodationPackage.AccomodationType != null)
+                        {
+                            @accomodationPackage.AccomodationType.Name
+
+                        }
+                    </td>
+                    <td>@accomodationPackage.Name</td>
+                    <td>@accomodationPackage.NoOfRoom</td>
+                    <td>@accomodationPackage.FeePerNight</td>
+                    <td>
+                        <button data-href="@Url.Action("Action","AccomodationPackages" ,new {id=accomodationPackage.Id})" class=" data-btn btn btn-primary" type="button" data-toggle="modal" data-target="#actionModal"><i class="fas fa-pen mr-1"></i>Edit</button>
+                        <button data-href="@Url.Action("Delete","AccomodationPackages" ,new {id=accomodationPackage.Id})" class="data-btn btn-danger" type="button" data-toggle="modal" data-target="#actionModal"><i class="fas fa-trash mr-1"></i>Delete</button>
+                    </td>
+
+                </tr>
+            }
+
+        </tbody>
+    </table>
+    //pagination start..............
+    /*https://jasonwatmore.com/post/2015/10/30/aspnet-mvc-pagination-example-with-logic-like-google*/
+    if (Model.Pager.EndPage > 1)
+    {
+    <nav>
+        <ul class="pagination">
+            @if (Model.Pager.CurrentPage > 1)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="@Url.Action("Index","AccomodationPackages")">First</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="@Url.Action("Index","AccomodationPackages",new { page=Model.Pager.CurrentPage - 1,searchTerm=Model.SearchTerm,AccomodationTypeId=Model.AccomodationTypeId})">Previous</a>
+                </li>
+            }
+
+            @for (var page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
+            {
+                <li class=" page-item @(page == Model.Pager.CurrentPage ? "active" : "")">
+                    <a class="page-link" href="@Url.Action("Index","AccomodationPackages",new { page=page,searchTerm=Model.SearchTerm,AccomodationTypeId=Model.AccomodationTypeId})">@page</a>
+                </li>
+            }
+
+            @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="@Url.Action("Index","AccomodationPackages",new { page=Model.Pager.CurrentPage + 1,searchTerm=Model.SearchTerm,AccomodationTypeId=Model.AccomodationTypeId})">Next</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="@Url.Action("Index","AccomodationPackages",new { page=Model.Pager.TotalPages,searchTerm=Model.SearchTerm,AccomodationTypeId=Model.AccomodationTypeId})">Last</a>
+                </li>
+            }
+        </ul>
+    </nav>
+    }
+
+    //pagination end
+
+}
+else
+{
+    <div class="alert alert-warning" role="alert">
+        Sorry!! no Records Exists.
+    </div>
+}
